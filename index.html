@@ -1,73 +1,104 @@
+<!DOCTYPE html>
+<html>
 <head>
-<script src="/socket.io/socket.io.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
-<script>
-
-	var socket = io();
-
-	socket.on('connect', function(){
-		socket.emit('adduser', prompt("What's your name: "));
-	});
-
-	socket.on('updatechat', function (username, data) {
-		$('#conversation').append('<b>'+ username + ':</b> ' + data + '<br>');
-	});
-
-	socket.on('updaterooms', function (rooms, current_room) {
-		$('#rooms').empty();
-		$.each(rooms, function(key, value) {
-			if(value == current_room){
-				$('#rooms').append('<div>' + value + '</div>');
-			}
-			else {
-				$('#rooms').append('<div><a href="#" onclick="switchRoom(\''+value+'\')">' + value + '</a></div>');
-			}
-		});
-	});
-
-	function switchRoom(room){
-		socket.emit('switchRoom', room);
-	}
-
-	$(function(){
-		$('#datasend').click( function() {
-			var message = $('#data').val();
-			$('#data').val('');
-			socket.emit('sendchat', message);
-		});
-
-		$('#data').keypress(function(e) {
-			if(e.which == 13) {
-				$(this).blur();
-				$('#datasend').focus().click();
-			}
-		});
-
-		$('#roombutton').click(function(){
-			var name = $('#roomname').val();
-			$('#roomname').val('');
-			socket.emit('create', name)
-		});
-	});
-
-</script>
+	<meta charset="utf-8">
+	<title>Dota2 battle</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/debug.css">
+	<script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-	<div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;">
-		<b>ROOMS</b>
-		<div id="rooms"></div>
+	<div id="main">
+		<div id="logo">
+			<img src="images/logo.png">
+			<input type="text" id="username" placeholder="Tên nhân vật">
+			<a href="javascript:void(0);" id="btn-login">Chơi ngay</a>
+		</div>
+		<div id="control">
+			<a href="javascript:void(0);" id="autoplay">Tự động tìm kiếm</a>
+			<a href="javascript:void(0);" id="vs-mode">Thách đấu</a>
+		</div>
+		<div id="search">
+			<input type="text" id="search-people" placeholder="Tìm kiếm người chơi">
+		</div>
+		<div id="friends">
+			<p class="text"><span class="text">Danh sách bạn bè</span></p>
+			<ul class="list">
+				<li>
+					<div class="left">
+						<img class="avatar" src="images/avatar.png">
+						<p class="name">Eris Jonh</p>
+						<p class="level">Level: 56</p>
+					</div>
+					<div class="right">
+						<img src="images/icon1.png">
+					</div>
+				</li>
+				<li>
+					<div class="left">
+						<img class="avatar" src="images/avatar.png">
+						<p class="name">Sunny Linh</p>
+						<p class="level">Level: 45</p>
+					</div>
+					<div class="right">
+						<img src="images/icon2.png">
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div id="wait">
+			<div class="user-1 item">
+				<div class="avatar">
+					<img src="images/avatar.png">
+					<span class="status">loading</span>
+				</div>
+			</div>
+			<div class="vs-icon item"><img src="images/icon1.png"></div>
+			<div class="user-2 item">
+				<div class="avatar">
+					<img src="images/avatar.png">
+					<span class="status">loading</span>
+				</div>
+			</div>
+		</div>
+		<div id="play">
+			<div class="info">
+				<div class="item">
+					<img class="avatar" src="images/avatar.png">
+				</div>
+				<div class="item">
+					<span class="score">12</span>
+					<img class="vs" src="images/icon1.png">
+					<span class="score">34</span>
+				</div>
+				<div class="item">
+					<img class="avatar" src="images/avatar.png">
+				</div>
+			</div>
+			<div class="clear"></div>
+			<div class="question"></div>
+			<div class="answer"></div>
+		</div>
+		<div id="over">
+			<img class="avatar" src="images/avatar.png">
+			<span class="score">34</span>
+			<p class="status">Xin chúc mừng! Bạn là người chiến thắng!</p>
+			<button class="revenge">Revenge</button>
+			<div class="group-btn">
+				<button class="playagain">Play again</button>
+				<button class="ranking">Ranking</button>
+			</div>
+		</div>
 	</div>
-
-	<div style="float:left;width:300px;height:250px;overflow:scroll-y;padding:10px;">
-		<div id="conversation"></div>
-		<input id="data" style="width:200px;" />
-		<input type="button" id="datasend" value="send" />
+	<div id="debug">
+		<p class="txt-header-debug">Debug tool</p>
+		<div id="debug-log"></div>
 	</div>
-
-	<div style="float:left;width:300px;height:250px;overflow:scroll-y;padding:10px;">
-		<div id="room creation"></div>
-		<input id="roomname" style="width:200px;" />
-		<input type="button" id="roombutton" value="create room" />
+	<div id="room">
+		<p class="txt-header-debug">Danh sách phòng chơi</p>
+		<div id="debug-room"></div>
 	</div>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/start.js"></script>
 </body>
+</html>

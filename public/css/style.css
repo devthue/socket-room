@@ -1,0 +1,264 @@
+*{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+*:focus {
+    outline: none;
+}
+html, body {
+    font-family: Arial,Verdana,sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+}
+body {
+	background: #eee;
+}
+a{
+	text-decoration: none;
+}
+ul{
+	list-style-type:none;
+}
+.clear {
+	clear: both;
+}
+#wait,
+#friends,
+#control,
+#search,
+#play,
+#over{
+	display: none;
+}
+#main{
+	width: 394px;
+	height: 700px;
+	margin: 0 auto;
+	padding: 20px;
+	position: relative;
+	background: #fff;
+}
+#logo{
+	text-align: center;
+}
+#logo img{
+	width: 195px;
+	margin-top: 130px;
+}
+#btn-login{
+	width: 100%;
+	height: 45px;
+	background: #e53946;
+	border-radius: 5px;
+	border: 0;
+	color: #fff;
+	font-size: 16px;
+	display: block;
+	margin: 0 auto;
+	margin-top: 15px;
+	line-height: 45px;
+}
+div#control a {
+    height: 50px;
+    margin: 0 auto;
+    display: block;
+    border-radius: 10px;
+    background: #e53946;
+    line-height: 50px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #fff;
+}
+
+#wait .item {
+    float: left;
+    width: 33%;
+    text-align: center;
+}
+
+#wait .item .avatar img {
+    width: 100px;
+}
+
+#wait .vs-icon img {
+    margin-top: 30px;
+    width: 50px;
+}
+
+#wait .vs-icon {
+    text-align: center;
+    height: 115px;
+}
+
+#wait {
+    padding-top: 250px;
+}
+
+#wait .status {
+    color: #e53946;
+}
+
+input#search-people {
+    height: 50px;
+    width: 100%;
+    border-radius: 10px;
+    border: 2px solid #e53946;
+    padding: 10px;
+    font-size: 16px;
+    color: #e53946;
+}
+#friends p.text{
+	text-align: center;
+	color: #e53946;
+	position: relative;
+	height: 40px;
+	margin-top: 20px;
+}
+#friends p.text:after{
+	content: '';
+	border-bottom: 1px solid #e53946;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	padding-top: 13px;
+}
+#friends p span.text {
+    background: #fff;
+    z-index: 999;
+    padding: 0px 5px 0px 5px;
+    position: absolute;
+    left: 107px;
+}
+
+#friends ul.list li {
+    float: left;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#friends .left {
+    float: left;
+    width: 200px;
+}
+
+#friends .left img.avatar {
+    width: 75px;
+    float: left;
+    margin-right: 10px;
+}
+
+#friends .right {
+    float: right;
+}
+
+#friends .right img {
+    width: 50px;
+    margin-top: 15px;
+}
+
+#friends .left p {
+    color: #e53946;
+    padding-top: 10px;
+}
+
+input#username {
+    width: 100%;
+    height: 45px;
+    border: 1px solid #e53946;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 15px;
+    margin-top: 35px;
+}
+
+#username {
+	color: #e53946;
+}
+
+#play .info {
+    margin-left: 10px;
+	margin-top: 20px;
+}
+
+#play img.avatar {
+    width: 75px;
+    margin: 0 10px 0 10px;
+    vertical-align: middle;
+}
+
+#play .info .item {
+    line-height: 75px;
+    float: left;
+}
+
+#play span.score {
+    font-size: 30px;
+    color: #e53946;
+}
+
+#play img.vs{
+	width: 40px;
+	vertical-align: top;
+	padding: 5px;
+	margin: 17px 10px 0px 10px;
+}
+
+#play p.text {
+    background: #e53946;
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+#play .question {
+    margin-top: 30px;
+}
+
+#over img.avatar {
+    width: 65px;
+    margin-top: 100px;
+}
+
+#over span.score {
+    font-size: 30px;
+    display: block;
+    text-align: center;
+    color: #e53946;
+}
+
+div#over {
+    text-align: center;
+}
+
+#over p.status {
+    color: #e53946;
+    font-size: 16px;
+}
+
+#over button.revenge {
+    width: 100%;
+    height: 50px;
+    border: 0;
+    color: #fff;
+    background: #e53946;
+    font-size: 16px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+#over .group-btn button {
+    width: 49%;
+    border-radius: 10px;
+    font-size: 16px;
+    height: 50px;
+    border: 0;
+    color: #fff;
+    background: #e53946;
+}
+
+#over .group-btn {
+    margin-top: 15px;
+}
