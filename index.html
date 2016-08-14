@@ -5,6 +5,7 @@
 	<title>Dota2 battle</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" type="text/css" href="css/debug.css">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 	<script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
@@ -29,15 +30,22 @@
 			<div class="user-1 item">
 				<div class="avatar">
 					<img src="images/avatar.png">
-					<span class="status">loading</span>
+					<span class="name user1"></span>
 				</div>
 			</div>
 			<div class="vs-icon item"><img src="images/icon1.png"></div>
 			<div class="user-2 item">
 				<div class="avatar">
 					<img src="images/avatar.png">
-					<span class="status">loading</span>
+					<span class="name user2"></span>
 				</div>
+			</div>
+		</div>
+		<div id="invate">
+			<button class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+			<div class="popup">
+				<p><span class="name">Bang</span> muốn thách đấu với bạn</p>
+				<button class="accept">Đồng ý</button>
 			</div>
 		</div>
 		<div id="play">
@@ -55,6 +63,7 @@
 				</div>
 			</div>
 			<div class="clear"></div>
+			<div class="countdown"><span>10</span></div>
 			<div class="question"></div>
 			<div class="answer"></div>
 		</div>
@@ -62,10 +71,10 @@
 			<img class="avatar" src="images/avatar.png">
 			<span class="score">34</span>
 			<p class="status">Xin chúc mừng! Bạn là người chiến thắng!</p>
-			<button class="revenge">Revenge</button>
+			<button class="revenge">Chơi lại</button>
 			<div class="group-btn">
-				<button class="playagain">Play again</button>
-				<button class="ranking">Ranking</button>
+				<button class="playagain">Tìm người khác</button>
+				<button class="ranking">Xếp hạng</button>
 			</div>
 		</div>
 	</div>

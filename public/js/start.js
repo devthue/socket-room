@@ -1,5 +1,7 @@
 var socket = io();
 
+const TIME_PER_QUESTION = 10000;
+
 socket.on('updatechat', function (username, data) {
 	$('#debug-log').prepend('<p><b>'+ username + ':</b> ' + data + '<br></p>');
 });
@@ -15,6 +17,10 @@ socket.on('updateuser', function(usernames){
 	});
 });
 
+socket.on('roomCurrent', function(room){
+	socket.room = room;
+})
+
 $('#btn-login').click(function(){
 	socket.username = $('#username').val();
 	socket.emit('adduser', socket.username);
@@ -25,33 +31,37 @@ $('#btn-login').click(function(){
 });
 
 $('#autoplay').click(function(){
-	$('#control').slideUp('slow',function(){
-		$('#search').slideUp('slow');
-		$('#friends').slideUp('slow', function(){
-			$('#wait').fadeIn("slow", function(){
-				socket.emit('switchRoom', socket.username);
-			});
-		});
-	});
+	play();
 });
 
 socket.on('question', function (questionlist) {
 	$('#wait').slideUp('slow',function(){
 		$('#play').fadeIn("slow");
-		updateQuestion(questionlist, 0, 5000);
+		updateQuestion(questionlist, 0, TIME_PER_QUESTION);
 	});
 });
 
 socket.on('updatescore', function(score){
-	
+	var scoreUser2 = $('#play .score.user2');
+	scoreUser2.html(parseInt(scoreUser2.html()) + score);
 });
 
 $('#vs-mode').click(function(){
 	$('#search').slideToggle(100);
 });
 
-$('#invite').click(function(){
-	socket.emit('adduser', socket.username);
+$('#invate .close').click(function(){
+	$('#invate').fadeOut('slow');
+});
+
+$('.btn-invate').click(function(){
+
+});
+
+socket.on('invate', function(userInvate){
+	console.log(userInvate);
+	$('#invate p span.name').html(userInvate);
+	$('#invate').fadeIn('slow');
 });
 
 function createUser(data){
@@ -77,7 +87,7 @@ function createUser(data){
 		default:
 			imgvs = 'images/icon1.png';
 	}
-	html += '<img id="invite" src="' + imgvs + '" data-id="' + data.socketId + '">';
+	html += '<img class="btn-invite" src="' + imgvs + '" data-id="' + data.socketId + '" onclick="invate(this)">';
 	html += '</div>';
 	html += '</li>';
 	return html;
@@ -87,11 +97,14 @@ function updateQuestion(questionlist, number, time){
 	var char = 'A';
 	$('#play .question').html('');
 	$('#play .answer').html('');
-	$('#play .question').append('<p class="text">' + questionlist[number].question +'</p>');
+	$('#play .question').append('<p class="text" data-id="' + number + '" data-correct="' + questionlist[number].correct + '">' + questionlist[number].question +'</p>');
 	$.each(questionlist[number].answer, function(key, value) {
-		$('#play .answer').append('<p class="text">' + char + '. '+ value +'</p>');
+		$('#play .answer').append('<button class="text" data-id="' + key + '" onclick="answer(this)">' + char + '. '+ value +'</button>');
 		char = String.fromCharCode(char.charCodeAt() + 1);
 	});
+	var second = time / 1000;
+	console.log(second);
+	countdownTime(second, '#play .countdown span');
 	if(number < questionlist.length - 1 ){
 		setTimeout(function(){
 			number++;
@@ -100,6 +113,16 @@ function updateQuestion(questionlist, number, time){
 	}else{
 		setTimeout(function(){
 			$('#play').slideUp('slow', function(){
+				var myScore = $('#play .score.user1').html();
+				var yourScore = $('#play .score.user2').html();
+				$('#over .score').html(myScore);
+				if(parseInt(myScore) > parseInt(yourScore)){
+					$('#over .status').html('Xin chúc mừng! Bạn là người chiến thắng!');
+				}else if(parseInt(myScore) < parseInt(yourScore)){
+					$('#over .status').html('Bạn đã thua! Hãy chơi lại để trả thù!');
+				}else{
+					$('#over .status').html('Hòa nhau!');
+				}
 				$('#over').fadeIn('slow');
 			});
 		}, time);
@@ -108,4 +131,43 @@ function updateQuestion(questionlist, number, time){
 
 function switchRoom(room){
 	socket.emit('switchRoom', room);
+}
+
+function answer(button){
+	var answer = $(button).data('id');
+	var correct = $('#play .question p.text').data('correct');
+	if(answer == correct){
+		var scoreUser1 = $('#play .score.user1');
+		scoreUser1.html(parseInt(scoreUser1.html()) + 1);
+		socket.emit('answer',socket.room);
+	}
+}
+
+function countdownTime(second, display){
+	if(second > 0){
+		setTimeout(function(){
+			second--;
+			$(display).html(second);
+			countdownTime(second, display);
+		}, 1000);
+	}
+}
+
+function play(){
+	$('#control').slideUp('slow',function(){
+		$('#search').slideUp('slow');
+		$('#friends').slideUp('slow', function(){
+			$('#wait').fadeIn("slow", function(){
+				$('#wait .name.user1').html(socket.username);
+				socket.emit('switchRoom', socket.username);
+			});
+		});
+	});
+}
+
+function invate(button){
+	socket.emit('invate',{
+		userA : socket.username,
+		userB : $(button).data('id')
+	});
 }

@@ -34,6 +34,16 @@ var questionlist = [
 			"Oke! and you?"
 		],
 		correct : 1
+	},
+	{
+		question : "1+1 = ? ",
+		answer : [
+			"2",
+			"3",
+			"0",
+			"4"
+		],
+		correct : 0
 	}
 ];
 
@@ -53,6 +63,7 @@ io.sockets.on('connection', function(socket) {
         socket.broadcast.emit('updatechat', 'SERVER', username + ' has connected to Global. ID: ' + socket.id);
 		socket.broadcast.emit('updateuser',usernames);
 		socket.emit('updateuser',usernames);
+
     });
 	socket.on('switchRoom', function(newroom) {
 		if(empty_room != null){
@@ -66,7 +77,7 @@ io.sockets.on('connection', function(socket) {
 		socket.room = newroom;
 		socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has connected to ' + newroom);
 		socket.broadcast.emit('updateroom', newroom);
-		socket.emit('updateroom', newroom);
+		socket.emit('roomCurrent', socket.room);
 		if(empty_room != null){
 			socket.emit('question', questionlist);
 			socket.broadcast.to(newroom).emit('question', questionlist);
@@ -75,6 +86,12 @@ io.sockets.on('connection', function(socket) {
 			empty_room = newroom;
 		}
     });
+	socket.on('answer', function(room){
+		socket.broadcast.to(room).emit('updatescore',1);
+	});
+	socket.on('invate', function(data){
+		io.sockets.in(data.userB).emit('invate', data.userA);
+	});
 	socket.on('disconnect', function() {
         delete usernames[socket.username];
         io.sockets.emit('updateusers', usernames);
