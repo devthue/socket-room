@@ -9,7 +9,6 @@ socket.on('updateroom', function (room) {
 });
 
 socket.on('updateuser', function(usernames){
-	console.log(usernames);
 	$('#friends .list').html('');
 	$.each(usernames, function(username, data) {
 		$('#friends .list').append(createUser(data));
@@ -38,15 +37,13 @@ $('#autoplay').click(function(){
 
 socket.on('question', function (questionlist) {
 	$('#wait').slideUp('slow',function(){
-		var number = 0;
-		var char = 'A';
-		$('#play .question').append('<p class="text">' + questionlist[number].question +'</p>');
-		$.each(questionlist[number].answer, function(key, value) {
-			$('#play .answer').append('<p class="text">' + char + '. '+ value +'</p>');
-			char = String.fromCharCode(char.charCodeAt() + 1);
-		});
 		$('#play').fadeIn("slow");
+		updateQuestion(questionlist, 0, 5000);
 	});
+});
+
+socket.on('updatescore', function(score){
+	
 });
 
 $('#vs-mode').click(function(){
@@ -84,6 +81,29 @@ function createUser(data){
 	html += '</div>';
 	html += '</li>';
 	return html;
+}
+
+function updateQuestion(questionlist, number, time){
+	var char = 'A';
+	$('#play .question').html('');
+	$('#play .answer').html('');
+	$('#play .question').append('<p class="text">' + questionlist[number].question +'</p>');
+	$.each(questionlist[number].answer, function(key, value) {
+		$('#play .answer').append('<p class="text">' + char + '. '+ value +'</p>');
+		char = String.fromCharCode(char.charCodeAt() + 1);
+	});
+	if(number < questionlist.length - 1 ){
+		setTimeout(function(){
+			number++;
+			updateQuestion(questionlist, number, time);
+		}, time);
+	}else{
+		setTimeout(function(){
+			$('#play').slideUp('slow', function(){
+				$('#over').fadeIn('slow');
+			});
+		}, time);
+	}
 }
 
 function switchRoom(room){
