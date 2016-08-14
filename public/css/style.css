@@ -41,6 +41,12 @@ ul{
 	position: relative;
 	background: #fff;
 }
+
+#loading {
+    margin-top: 300px;
+    text-align: center;
+}
+
 #logo{
 	text-align: center;
 }

@@ -2,13 +2,15 @@ var socket = io();
 
 const TIME_PER_QUESTION = 10000;
 
-// Polling for the sake of my intern tests
 var interval = setInterval(function() {
     if(document.readyState === 'complete') {
         clearInterval(interval);
-		$('#logo').fadeIn('slow');
+		$('#loading').fadeOut('slow', function(){
+			$('#logo').fadeIn('slow');
+		});
+
     }
-}, 200);
+}, 2000);
 
 socket.on('updatechat', function (username, data) {
 	$('#debug-log').prepend('<p><b>'+ username + ':</b> ' + data + '<br></p>');
@@ -45,7 +47,7 @@ $('#autoplay').click(function(){
 });
 
 socket.on('question', function (questionlist) {
-	$('#wait').slideUp('slow',function(){
+	$('#wait').fadeOut('slow',function(){
 		$('#play').fadeIn("slow");
 		updateQuestion(questionlist, 0, TIME_PER_QUESTION);
 	});
@@ -69,7 +71,6 @@ $('.btn-invate').click(function(){
 });
 
 socket.on('invate', function(userInvate){
-	console.log(userInvate);
 	$('#invate p span.name').html(userInvate);
 	$('#invate').fadeIn('slow');
 });
@@ -162,11 +163,10 @@ function countdownTime(second, display){
 }
 
 function play(){
-	$('#control').slideUp('slow',function(){
-		$('#search').slideUp('slow');
-		$('#friends').slideUp('slow', function(){
+	$('#wait .name.user1').html(socket.username);
+	$('#friends').fadeOut('slow', function(){
+		$('#control').fadeOut('slow',function(){
 			$('#wait').fadeIn("slow", function(){
-				$('#wait .name.user1').html(socket.username);
 				socket.emit('switchRoom', socket.username);
 			});
 		});

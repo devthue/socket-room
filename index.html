@@ -6,10 +6,24 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" type="text/css" href="css/debug.css">
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/loading.css">
 	<script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
 	<div id="main">
+		<div id="loading">
+			<div class="overlay-loader">
+				<div class="loader">
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+			</div>
+		</div>
 		<div id="logo">
 			<img src="images/logo.png">
 			<input type="text" id="username" placeholder="Tên nhân vật">
