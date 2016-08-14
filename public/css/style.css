@@ -23,6 +23,7 @@ ul{
 .clear {
 	clear: both;
 }
+#logo,
 #wait,
 #friends,
 #control,
@@ -140,34 +141,34 @@ input#search-people {
 }
 
 #friends ul.list li {
-    float: left;
-    width: 100%;
+    ]: 100%
     margin-bottom: 20px;
+    width: 100%;
+    display: inline-block;
+    margin-bottom: 15px;
+    color: #e53946;
 }
 
-#friends .left {
+#friends img.avatar {
     float: left;
-    width: 200px;
-}
-
-#friends .left img.avatar {
     width: 75px;
-    float: left;
-    margin-right: 10px;
 }
 
-#friends .right {
+#friends button.btn-invite {
     float: right;
+    border: 0;
+    background: transparent;
 }
 
-#friends .right img {
-    width: 50px;
+#friends button.btn-invite img {
+    width: 45px;
     margin-top: 15px;
 }
 
-#friends .left p {
-    color: #e53946;
-    padding-top: 10px;
+#friends .info {
+    float: left;
+    margin-top: 15px;
+    margin-left: 15px;
 }
 
 input#username {
@@ -338,11 +339,11 @@ button.accept {
 }
 
 #invate button.close {
-    top: calc(50% - 120px);
+    top: calc(50% - 115px);
     position: absolute;
     right: 15px;
+    line-height: 0;
     font-size: 30px;
-    height: 25px;
     z-index: 999;
     color: #fff;
     background: none;

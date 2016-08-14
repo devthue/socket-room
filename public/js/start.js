@@ -2,6 +2,14 @@ var socket = io();
 
 const TIME_PER_QUESTION = 10000;
 
+// Polling for the sake of my intern tests
+var interval = setInterval(function() {
+    if(document.readyState === 'complete') {
+        clearInterval(interval);
+		$('#logo').fadeIn('slow');
+    }
+}, 200);
+
 socket.on('updatechat', function (username, data) {
 	$('#debug-log').prepend('<p><b>'+ username + ':</b> ' + data + '<br></p>');
 });
@@ -24,9 +32,11 @@ socket.on('roomCurrent', function(room){
 $('#btn-login').click(function(){
 	socket.username = $('#username').val();
 	socket.emit('adduser', socket.username);
-	$('#logo').slideUp('slow',function(){
-		$('#control').show('slow');
-		$('#friends').show('slow');
+	$('#logo').fadeOut('slow',function(){
+		$('#control').fadeIn('slow', function(){
+			$('#friends').fadeIn('slow');
+		});
+
 	});
 });
 
@@ -67,12 +77,11 @@ socket.on('invate', function(userInvate){
 function createUser(data){
 	var html = '';
 	html += '<li>';
-	html += '<div class="left">';
 	html += '<img class="avatar" src="' + data.avatar + '">';
+	html += '<div class="info">';
 	html += '<p class="name">' + data.name + '</p>';
 	html += '<p class="level">' + data.level +'</p>';
 	html += '</div>';
-	html += '<div class="right">';
 	var imgvs;
 	switch (data.status) {
 		case 'online':
@@ -87,8 +96,7 @@ function createUser(data){
 		default:
 			imgvs = 'images/icon1.png';
 	}
-	html += '<img class="btn-invite" src="' + imgvs + '" data-id="' + data.socketId + '" onclick="invate(this)">';
-	html += '</div>';
+	html += '<button class="btn-invite" data-id="' + data.socketId + '" onclick="invate(this)"><img  src="' + imgvs + '"></button>';
 	html += '</li>';
 	return html;
 }
