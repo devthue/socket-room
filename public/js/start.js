@@ -36,7 +36,9 @@ $('#btn-login').click(function(){
 	socket.emit('adduser', socket.username);
 	$('#logo').fadeOut('slow',function(){
 		$('#control').fadeIn('slow', function(){
-			$('#friends').fadeIn('slow');
+			$('#search').fadeIn('slow', function(){
+				$('#friends').fadeIn('slow');
+			});
 		});
 
 	});
@@ -56,10 +58,6 @@ socket.on('question', function (questionlist) {
 socket.on('updatescore', function(score){
 	var scoreUser2 = $('#play .score.user2');
 	scoreUser2.html(parseInt(scoreUser2.html()) + score);
-});
-
-$('#vs-mode').click(function(){
-	$('#search').slideToggle(100);
 });
 
 $('#invate .close').click(function(){
