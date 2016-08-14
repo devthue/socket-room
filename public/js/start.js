@@ -13,7 +13,7 @@ socket.on('updateroom', function (room) {
 socket.on('updateuser', function(usernames){
 	$('#friends .list').html('');
 	$.each(usernames, function(username, data) {
-		$('#friends .list').append(createUser(data));
+		$('#friends .list').prepend(createUser(data));
 	});
 });
 

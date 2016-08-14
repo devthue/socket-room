@@ -110,6 +110,12 @@ input#search-people {
     font-size: 16px;
     color: #e53946;
 }
+
+#friends ul.list {
+    height: 475px;
+    overflow-y: scroll;
+}
+
 #friends p.text{
 	text-align: center;
 	color: #e53946;

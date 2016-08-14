@@ -4,6 +4,7 @@ div#debug {
     background: #ddd;
     top: 0;
     left: 70px;
+    overflow-y: scroll;
     padding: 15px;
     position: fixed;
 }
