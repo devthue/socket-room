@@ -1,6 +1,7 @@
 var socket = io();
 
 const TIME_PER_QUESTION = 10000;
+const TIME_WAIT_TO_PLAY = 5000;
 
 var interval = setInterval(function() {
     if(document.readyState === 'complete') {
@@ -49,9 +50,21 @@ $('#autoplay').click(function(){
 });
 
 socket.on('question', function (questionlist) {
-	$('#wait').fadeOut('slow',function(){
-		$('#play').fadeIn("slow");
-		updateQuestion(questionlist, 0, TIME_PER_QUESTION);
+	var second = TIME_WAIT_TO_PLAY / 1000;
+	$('#wait .vs-icon img').fadeOut('slow', function(){
+		$('#wait .vs-icon span').fadeIn('slow', function(){
+			countdownTime(second, '#wait .vs-icon span');
+			setTimeout(function(){
+				$('#wait').fadeOut('slow',function(){
+					$('#wait .vs-icon img').css('display','block');
+					$('#wait .vs-icon span').css('display','none');
+					$('#wait .vs-icon span').html('5');
+					$('#play').fadeIn("slow", function(){
+						updateQuestion(questionlist, 0, TIME_PER_QUESTION);
+					});
+				});
+			},TIME_WAIT_TO_PLAY);
+		});
 	});
 });
 
@@ -110,7 +123,6 @@ function updateQuestion(questionlist, number, time){
 		char = String.fromCharCode(char.charCodeAt() + 1);
 	});
 	var second = time / 1000;
-	console.log(second);
 	countdownTime(second, '#play .countdown span');
 	if(number < questionlist.length - 1 ){
 		setTimeout(function(){
@@ -163,9 +175,11 @@ function countdownTime(second, display){
 function play(){
 	$('#wait .name.user1').html(socket.username);
 	$('#friends').fadeOut('slow', function(){
-		$('#control').fadeOut('slow',function(){
-			$('#wait').fadeIn("slow", function(){
-				socket.emit('switchRoom', socket.username);
+		$('#search').fadeOut('slow',function(){
+			$('#control').fadeOut('slow',function(){
+				$('#wait').fadeIn("slow", function(){
+					socket.emit('switchRoom', socket.username);
+				});
 			});
 		});
 	});

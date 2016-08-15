@@ -23,6 +23,8 @@ ul{
 .clear {
 	clear: both;
 }
+#debug,
+#room,
 #logo,
 #wait,
 #friends,
@@ -30,7 +32,8 @@ ul{
 #search,
 #play,
 #over,
-#invate{
+#invate,
+#wait .vs-icon span{
 	display: none;
 }
 #main{
@@ -39,6 +42,7 @@ ul{
 	margin: 0 auto;
 	padding: 20px;
 	position: relative;
+	border: 5px solid #ddd;
 	background: #fff;
 }
 
@@ -67,6 +71,7 @@ ul{
 	margin-top: 15px;
 	line-height: 45px;
 }
+
 div#control a {
     height: 50px;
     margin: 0 auto;
@@ -78,6 +83,11 @@ div#control a {
     margin-bottom: 20px;
     text-align: center;
     color: #fff;
+}
+
+div#control a:hover,
+#btn-login:hover {
+    background: #d0404b;
 }
 
 #wait .item {
@@ -93,6 +103,12 @@ div#control a {
 #wait .vs-icon img {
     margin-top: 30px;
     width: 50px;
+}
+
+#wait .vs-icon span {
+    font-size: 35px;
+    color: #e53946;
+    line-height: 100px;
 }
 
 #wait .vs-icon {
@@ -169,6 +185,10 @@ input#search-people {
 #friends button.btn-invite img {
     width: 45px;
     margin-top: 15px;
+}
+
+#friends button.btn-invite img:hover {
+    opacity: 0.65;
 }
 
 #friends .info {
