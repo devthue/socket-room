@@ -78,6 +78,14 @@ io.sockets.on('connection', function(socket) {
 		socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has connected to ' + newroom);
 		socket.broadcast.emit('updateroom', newroom);
 		socket.emit('roomCurrent', socket.room);
+		socket.emit('joinRoom', {
+			room : socket.room,
+			name : socket.username
+		});
+		socket.broadcast.emit('joinRoom', {
+			room : socket.room,
+			name : socket.username
+		});
 		if(empty_room != null){
 			socket.emit('question', questionlist);
 			socket.broadcast.to(newroom).emit('question', questionlist);

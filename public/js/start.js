@@ -30,7 +30,17 @@ socket.on('updateuser', function(usernames){
 
 socket.on('roomCurrent', function(room){
 	socket.room = room;
-})
+});
+
+socket.on('joinRoom', function(data){
+    if(data.room == data.name){
+        $('#wait .name.user1').html(data.name);
+        $('#wait .name.user2').html('Đang chờ...');
+    }else{
+        $('#wait .name.user1').html(data.room);
+        $('#wait .name.user2').html(data.name);
+    }
+});
 
 $('#btn-login').click(function(){
 	socket.username = $('#username').val();
@@ -114,37 +124,47 @@ function createUser(data){
 }
 
 function updateQuestion(questionlist, number, time){
-	var char = 'A';
-	$('#play .question').html('');
-	$('#play .answer').html('');
-	$('#play .question').append('<p class="text" data-id="' + number + '" data-correct="' + questionlist[number].correct + '">' + questionlist[number].question +'</p>');
-	$.each(questionlist[number].answer, function(key, value) {
-		$('#play .answer').append('<button class="text" data-id="' + key + '" onclick="answer(this)">' + char + '. '+ value +'</button>');
-		char = String.fromCharCode(char.charCodeAt() + 1);
-	});
-	var second = time / 1000;
-	countdownTime(second, '#play .countdown span');
+    $('#play .board').fadeIn('slow', function(){
+        var char = 'A';
+    	$('#play .question').html('');
+    	$('#play .answer').html('');
+    	$('#play .question').append('<p class="text" data-id="' + number + '" data-correct="' + questionlist[number].correct + '">' + questionlist[number].question +'</p>');
+    	$.each(questionlist[number].answer, function(key, value) {
+    		$('#play .answer').append('<button class="text" data-id="' + key + '" onclick="answer(this)">' + char + '. '+ value +'</button>');
+    		char = String.fromCharCode(char.charCodeAt() + 1);
+    	});
+    	var second = time / 1000;
+        $('#play .countdown span').fadeIn();
+    	countdownTime(second, '#play .countdown span');
+    });
 	if(number < questionlist.length - 1 ){
-		setTimeout(function(){
-			number++;
-			updateQuestion(questionlist, number, time);
-		}, time);
+        setTimeout(function(){
+            setTimeout(function(){
+                $('#play .countdown span').fadeOut();
+                $('#play .board').fadeOut('slow',function(){
+                    number++;
+                    updateQuestion(questionlist, number, time);
+                });
+            },2000);
+        }, time);
 	}else{
-		setTimeout(function(){
-			$('#play').slideUp('slow', function(){
-				var myScore = $('#play .score.user1').html();
-				var yourScore = $('#play .score.user2').html();
-				$('#over .score').html(myScore);
-				if(parseInt(myScore) > parseInt(yourScore)){
-					$('#over .status').html('Xin chúc mừng! Bạn là người chiến thắng!');
-				}else if(parseInt(myScore) < parseInt(yourScore)){
-					$('#over .status').html('Bạn đã thua! Hãy chơi lại để trả thù!');
-				}else{
-					$('#over .status').html('Hòa nhau!');
-				}
-				$('#over').fadeIn('slow');
-			});
-		}, time);
+        setTimeout(function(){
+    		setTimeout(function(){
+    			$('#play').slideUp('slow', function(){
+    				var myScore = $('#play .score.user1').html();
+    				var yourScore = $('#play .score.user2').html();
+    				$('#over .score').html(myScore);
+    				if(parseInt(myScore) > parseInt(yourScore)){
+    					$('#over .status').html('Xin chúc mừng! Bạn là người chiến thắng!');
+    				}else if(parseInt(myScore) < parseInt(yourScore)){
+    					$('#over .status').html('Bạn đã thua! Hãy chơi lại để trả thù!');
+    				}else{
+    					$('#over .status').html('Hòa nhau!');
+    				}
+    				$('#over').fadeIn('slow');
+    			});
+    		}, 2000);
+        }, time);
 	}
 }
 
@@ -163,17 +183,16 @@ function answer(button){
 }
 
 function countdownTime(second, display){
-	if(second > 0){
+	if(second >= 0){
+        $(display).html(second);
 		setTimeout(function(){
-			second--;
-			$(display).html(second);
+            second--;
 			countdownTime(second, display);
 		}, 1000);
 	}
 }
 
 function play(){
-	$('#wait .name.user1').html(socket.username);
 	$('#friends').fadeOut('slow', function(){
 		$('#search').fadeOut('slow',function(){
 			$('#control').fadeOut('slow',function(){

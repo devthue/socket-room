@@ -311,6 +311,7 @@ div#over {
 
 #play .countdown {
     text-align: center;
+    height: 65px;
 }
 
 #play .countdown span {
