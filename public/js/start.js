@@ -124,7 +124,6 @@ function createUser(data){
 }
 
 function updateQuestion(questionlist, number, time){
-    $('#play .board').fadeIn('slow', function(){
         var char = 'A';
     	$('#play .question').html('');
     	$('#play .answer').html('');
@@ -134,9 +133,10 @@ function updateQuestion(questionlist, number, time){
     		char = String.fromCharCode(char.charCodeAt() + 1);
     	});
     	var second = time / 1000;
-        $('#play .countdown span').fadeIn();
-    	countdownTime(second, '#play .countdown span');
-    });
+        $('#play .board').fadeIn('slow', function(){
+            $('#play .countdown span').fadeIn();
+    	    countdownTime(second, '#play .countdown span');
+        });
 	if(number < questionlist.length - 1 ){
         setTimeout(function(){
             setTimeout(function(){
@@ -176,6 +176,7 @@ function answer(button){
 	var answer = $(button).data('id');
 	var correct = $('#play .question p.text').data('correct');
 	if(answer == correct){
+        $(button).addClass('success');
 		var scoreUser1 = $('#play .score.user1');
 		scoreUser1.html(parseInt(scoreUser1.html()) + 1);
 		socket.emit('answer',socket.room);

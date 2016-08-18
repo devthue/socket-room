@@ -26,12 +26,12 @@ var questionlist = [
 		correct : 0
 	},
 	{
-		question : "What your name?",
+		question : "What your's name?",
 		answer : [
-			"I'm fine, thanks!",
-			"My name Bang",
+			"Oke! and you?",
+			"My name's Bang",
 			"This is love",
-			"Oke! and you?"
+			"I'm fine, thanks!"
 		],
 		correct : 1
 	},
@@ -112,6 +112,6 @@ io.sockets.on('connection', function(socket) {
     });
 });
 
-http.listen(3000, function(){
-	console.log('listening on *:3000');
+http.listen(8080, function(){
+	console.log('listening on *:8080');
 });
